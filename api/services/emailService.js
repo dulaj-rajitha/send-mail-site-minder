@@ -7,8 +7,8 @@ const SendGridMailProvider = require('../resources/sendGridMailProvider');
 const MailGunMailProvider = require('../resources/mailGunMailProvider');
 
 // mock connection pool with multiple providers
-const mailProviderPool = [new SendGridMailProvider(),
-  new SendGridMailProvider(), new SendGridMailProvider(), new MailGunMailProvider()];
+const mailProviderPool = [new SendGridMailProvider(), new MailGunMailProvider(),
+  new SendGridMailProvider(), new MailGunMailProvider()];
 
 // keep a round-robin index for the next eligible provider
 let nextProvider = 0;
@@ -26,12 +26,13 @@ const sendWithProvider = async ({
       nextProvider += 1;
     }
     logger.info(`sending with provider: ${nextProvider}, attempts: ${attempts}`);
-    await mailProviderPool[nextProvider].sendMail({
+    return await mailProviderPool[nextProvider].sendMail({
       from, to, cc, bcc, subject, text,
     });
   } catch (e) {
     // try with a different mail provider connection
-    await sendWithProvider({
+    logger.error('sending failed with provider, retrying; Error: ', e);
+    return sendWithProvider({
       from, to, cc, bcc, subject, text,
     }, attempts - 1);
   }

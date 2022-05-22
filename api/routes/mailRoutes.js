@@ -20,14 +20,30 @@ const { sendMailSchema } = require('../config/validations/sendMail');
  *            properties:
  *              from:
  *                type: string
+ *                example: dulajrajitha@gmail.com
+ *                required: true
  *              to:
  *                type: string
+ *                example: dulajrajitha@gmail.com
+ *                required: true
  *              cc:
- *                type: string
+ *                type: array
+ *                required: false
+ *                items:
+ *                  type: string
+ *                  example: dulajrajitha2@gmail.com
  *              bcc:
+ *                type: array
+ *                required: false
+ *                items:
+ *                  type: string
+ *                  example: dulajrajitha3@gmail.com
+ *              subject:
  *                type: string
+ *                example: Testing From Email sender
  *              text:
  *                type: string
+ *                example: Hi, Sending From Send Email Service
  *    responses:
  *      "200":
  *        description: Email Sent Successfully

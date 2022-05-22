@@ -14,42 +14,8 @@ class SendGridMailProvider extends MailProvider {
     super.sendMail();
     logger.info('sending with SendGrid');
 
-    // const headers = new Headers();
-    // headers.append('Authorization', `Bearer ${key}`);
-    // headers.append('Content-Type', 'application/json');
-    //
-    // const raw = JSON.stringify({
-    //   personalizations: [
-    //     {
-    //       to: [
-    //         {
-    //           email: 'john.doe@example.com',
-    //           name: 'John Doe',
-    //         },
-    //       ],
-    //       subject,
-    //     },
-    //   ],
-    //   content: [
-    //     {
-    //       type: 'text/plain',
-    //       value: text,
-    //     },
-    //   ],
-    //   from: {
-    //     email: from,
-    //   },
-    // });
-    //
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers,
-    //   body: raw,
-    //   redirect: 'follow',
-    // };
-    //
-    // const response = await fetch(host, requestOptions).then((resp) => resp.text());
-    //
+    const ccMails = cc && cc.length ? cc.map((email) => ({ email })) : undefined;
+    const bccMails = bcc && bcc.length ? bcc.map((email) => ({ email })) : undefined;
 
     const data = JSON.stringify({
       personalizations: [
@@ -59,7 +25,8 @@ class SendGridMailProvider extends MailProvider {
               email: to,
             },
           ],
-          subject,
+          cc: ccMails,
+          bcc: bccMails,
         },
       ],
       content: [
@@ -71,6 +38,7 @@ class SendGridMailProvider extends MailProvider {
       from: {
         email: from,
       },
+      subject,
     });
 
     const response = await new Promise((resolve, reject) => {
@@ -87,30 +55,29 @@ class SendGridMailProvider extends MailProvider {
       };
 
       const req = https.request(options, (res) => {
-        if (res.statusCode !== 200) {
+        if (res.statusCode !== 202) {
           return reject(res.statusMessage || 'Server Error');
         }
-
         const chunks = [];
-        res.on('data', (d) => chunks.push(d));
+
+        res.on('data', (chunk) => {
+          chunks.push(chunk);
+        });
+
         res.on('end', () => {
-          let resBody = Buffer.concat(chunks);
-          if (res.headers['content-type'] === 'application/json') {
-            resBody = JSON.parse(resBody);
-          }
-          resolve(resBody);
+          logger.info('request completed', chunks);
+          return resolve('Mail Send successfully');
         });
       });
 
-      req.on('error', (error) => {
-        reject(error);
-      });
+      req.on('error', (error) => reject(error));
 
       req.write(data);
       req.end();
     });
 
-    logger.info('response from sendgrid API', response);
+    logger.info('response from sendgrid API: ', response);
+    return response;
   }
 }
 

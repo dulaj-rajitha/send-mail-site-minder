@@ -6,6 +6,13 @@ of sending email by given parameters.
 
 We can consider them as child classes (implementations) of the parent class (TS interface) which will do just a sending and email (and sending an email only)
 
+## Notes
+### SendGrid Provider
+* For sendGrid API, API key is only validated with email address for from as: `dulajrajitha@gmail.com`
+* For other `from` input emails, it'll exceed the max attempts
+* All the emails were marked as SPAM, so you may have to check on the SPAM folder too
+
+
 # Deployment
 * Deployed on Heroku: 
   * [Swagger API Docs](https://email-sender-dulaj.herokuapp.com/api-docs/#/default/post_email_)
