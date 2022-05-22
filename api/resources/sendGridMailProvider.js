@@ -56,18 +56,19 @@ class SendGridMailProvider extends MailProvider {
 
       const req = https.request(options, (res) => {
         if (res.statusCode !== 202) {
-          return reject(res.statusMessage || 'Server Error');
+          reject(res.statusMessage || 'Server Error');
+        } else {
+          const chunks = [];
+
+          res.on('data', (chunk) => {
+            chunks.push(chunk);
+          });
+
+          res.on('end', () => {
+            logger.info('request completed', chunks);
+            return resolve('Mail Send successfully');
+          });
         }
-        const chunks = [];
-
-        res.on('data', (chunk) => {
-          chunks.push(chunk);
-        });
-
-        res.on('end', () => {
-          logger.info('request completed', chunks);
-          return resolve('Mail Send successfully');
-        });
       });
 
       req.on('error', (error) => reject(error));
@@ -77,7 +78,7 @@ class SendGridMailProvider extends MailProvider {
     });
 
     logger.info('response from sendgrid API: ', response);
-    return response;
+    return 'Mail Send Success with SendGrid API';
   }
 }
 

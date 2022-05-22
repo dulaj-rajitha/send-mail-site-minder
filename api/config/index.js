@@ -10,8 +10,10 @@ const config = {
     key: process.env.SENDGRID_MAIL_PROVIDER_KEY,
   },
   mailGun: {
-    host: process.env.SENDGRID_MAIL_PROVIDER_HOST,
-    key: process.env.SENDGRID_MAIL_PROVIDER_KEY,
+    host: process.env.MAILGUN_MAIL_PROVIDER_HOST,
+    path: process.env.MAILGUN_MAIL_PROVIDER_PATH,
+    key: process.env.MAILGUN_MAIL_PROVIDER_KEY,
+    boundary: '----WebKitFormBoundary7MA4YWxkTrZu0gW',
   },
   mailMaxRetry: Number(process.env.EMAIL_MAX_RETRY),
 };

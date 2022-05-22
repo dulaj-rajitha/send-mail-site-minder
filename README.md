@@ -12,6 +12,12 @@ We can consider them as child classes (implementations) of the parent class (TS 
 * For other `from` input emails, it'll exceed the max attempts
 * All the emails were marked as SPAM, so you may have to check on the SPAM folder too
 
+### MailGun Provider
+* For sendGrid API, API key is only validated with email address for to as: `dulajrajitha@gmail.com`, for other emails, we cannot receive any and will get a response as Forbidden
+* `from` input email cannot be changed for the test key as well. So i hardcoded the value
+* All the emails were marked as SPAM, so you may have to check on the SPAM folder too
+* `cc` and `bcc` values has to be verified and oly verified values are supported, so it's not included in the code and added a TODO note
+
 
 # Deployment
 * Deployed on Heroku: 
@@ -153,4 +159,5 @@ All the HTTP requests will be following the path as
   * Added some unit tests only to cover the services and there are more branches to cover
 
 * ### Not fully completed the API integration with SengGrid and MailGun
-  * TODO: completed before submission
+  * Some white listings with trial API keys are required, so cannot be used to send to any email adders yet. 
+  * But with real API keys, those limitations will be removed

@@ -1,9 +1,10 @@
 class MailProvider {
-  sendMail() {
-    // interface method to be implemented in subclass
+  // TODO: this can hold request queues and pop and process will be the ideal setup
+  constructor() {
+    this.queue = [];
   }
 
-  checkStatus() {
+  sendMail() {
     // interface method to be implemented in subclass
   }
 }
