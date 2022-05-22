@@ -156,7 +156,9 @@ All the HTTP requests will be following the path as
   * Added an empty middleware to handle the authentication. to implement the bearer and basic/ key based authentications as per new requirements
 
 * ### Testing
-  * Added some unit tests only to cover the services and there are more branches to cover
+  * Added some unit tests only to cover the services and there are more branches to cover.
+  * For the resources (mail providers), I should mock the `https` and with different status values, need to set the assertions.
+  * For the email service, I should mock the resources `sendEmail` function and based on success and exception, need to write my assertions. 
 
 * ### Not fully completed the API integration with SengGrid and MailGun
   * Some white listings with trial API keys are required, so cannot be used to send to any email adders yet. 
