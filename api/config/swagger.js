@@ -9,6 +9,8 @@ const swaggerOption = {
     servers: [
       {
         url: 'http://localhost:8080',
+      }, {
+        url: 'https://email-sender-dulaj.herokuapp.com',
       },
     ],
     components: {
