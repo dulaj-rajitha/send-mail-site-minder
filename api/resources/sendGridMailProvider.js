@@ -7,6 +7,9 @@ const logger = new Logger('sendGrid Email Provider');
 const { host, key, path } = require('../config').get('/sendGrid');
 const MailProvider = require('./mailProvider');
 
+/**
+ * This class will implement the email sending functionality using SendGrid API
+ */
 class SendGridMailProvider extends MailProvider {
   async sendMail({
     from, to, cc, bcc, subject, text,

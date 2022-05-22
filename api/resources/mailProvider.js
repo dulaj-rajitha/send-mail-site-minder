@@ -1,3 +1,7 @@
+/**
+ * Interface like template class
+ * TODO: improve with a data queue to hold the incoming requests
+ */
 class MailProvider {
   // TODO: this can hold request queues and pop and process will be the ideal setup
   constructor() {

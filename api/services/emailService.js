@@ -13,6 +13,17 @@ const mailProviderPool = [new SendGridMailProvider(), new MailGunMailProvider(),
 // keep a round-robin index for the next eligible provider
 let nextProvider = 0;
 
+/**
+ * Recursive function to orchestrate the fail-safe function for sending emails with multiple providers
+ * @param from
+ * @param to
+ * @param cc
+ * @param bcc
+ * @param subject
+ * @param text
+ * @param attempts
+ * @returns {Promise<string|*|undefined>}
+ */
 const sendWithProvider = async ({
   from, to, cc, bcc, subject, text,
 }, attempts) => {
@@ -38,6 +49,16 @@ const sendWithProvider = async ({
   }
 };
 
+/**
+ * Sending emails using multiple mail providers using round-robin load balancing
+ * @param from
+ * @param to
+ * @param cc
+ * @param bcc
+ * @param subject
+ * @param text
+ * @returns {Promise<string|*|undefined>}
+ */
 const sendMail = async ({
   from, to, cc, bcc, subject, text,
 }) => {

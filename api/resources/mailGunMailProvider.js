@@ -9,6 +9,9 @@ const {
 } = require('../config').get('/mailGun');
 const MailProvider = require('./mailProvider');
 
+/**
+ * This class will implement the email sending functionality using MailGun API
+ */
 class MailGunMailProvider extends MailProvider {
   async sendMail({
     to, subject, text,
